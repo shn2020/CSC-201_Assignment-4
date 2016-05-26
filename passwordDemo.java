@@ -1,17 +1,30 @@
+/**
+ * @assignment3: Chapter 7, Programming project 8
+ * @author: Sang Nguyen (shn2020@vccs.edu)
+ * @course: CSC 201(041N)
+ * @instructor: Sabah Salin
+ * @due: 11:59PM of May 27, 2016
+ * @purpose: Create a program for password authentication
+ * @language: Java
+ */
+
 import java.util.Scanner;
 
 public class passwordDemo {
-	static int[] randomNum = new int[10];
+	private static int[] randomNum = new int[10];
+	protected static int[] passwordPIN = new int[5];
+	private static int[] responseNum = new int[5];
+	private static Scanner input = new Scanner(System.in);
+	
 	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		int[] passwordPIN = new int[5];
-		int[] responseNum = new int[5];
-		randomNum = generateNUM(randomNum);
-		
+		randomNum = generateRandomNumbers(randomNum);
 		System.out.print("Enter your password as a five-digit number (00000 to 99999): ");
 		int inputPassword = input.nextInt();
 		passwordPIN = convertInttoArray(inputPassword);
-		
+		passwordAuthentication();
+	}
+	
+	protected static void passwordAuthentication() {
 		int attempt = 0;
 		do {	
 			attempt++;
@@ -32,7 +45,7 @@ public class passwordDemo {
 		System.out.println("Correct authentication number");
 	}
 	
-	public static int[] convertInttoArray(int num) {
+	static int[] convertInttoArray(int num) {
 		int[] array = new int[5];
 		for (int i = 4; i >= 0; i--) {
 			array[i] = num % 10;
@@ -41,7 +54,7 @@ public class passwordDemo {
 		return array;
 	}
 	
-	public static int[] generateNUM(int[] array) {
+	static int[] generateRandomNumbers(int[] array) {
 		for (int i = 0; i < array.length; i++) {
 			do {
 				array[i] = (int)(Math.random() * 4);
@@ -50,7 +63,7 @@ public class passwordDemo {
 		return array;
 	}
 	
-	public static boolean isCorrectPassword(int[] array1, int[] array2) {
+	static boolean isCorrectPassword(int[] array1, int[] array2) {
 		for (int i = 0; i < array1.length; i++) {
 			if (randomNum[array1[i]] != array2[i]) return false;
 		}
