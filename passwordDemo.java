@@ -3,7 +3,7 @@
  * @author: Sang Nguyen (shn2020@vccs.edu)
  * @course: CSC 201(041N)
  * @instructor: Sabah Salin
- * @due: 11:59PM of May 27, 2016
+ * @due: 11:59PM of May 31, 2016
  * @purpose: Create a program for password authentication
  * @language: Java
  */
@@ -17,14 +17,13 @@ public class passwordDemo {
 	private static Scanner input = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		randomNum = generateRandomNumbers(randomNum);
-		System.out.print("Enter your password as a five-digit number (00000 to 99999): ");
-		int inputPassword = input.nextInt();
-		passwordPIN = convertInttoArray(inputPassword);
 		passwordAuthentication();
 	}
 	
 	protected static void passwordAuthentication() {
+		String inputPassword = inputPrompt("Enter your password as a five-digit number (00000 to 99999): ");
+		passwordPIN = convertStrtoArray(inputPassword);
+		randomNum = generateRandomNumbers(randomNum);
 		int attempt = 0;
 		do {	
 			attempt++;
@@ -36,20 +35,27 @@ public class passwordDemo {
 			for (int i = 0; i < randomNum.length; i++) System.out.print(randomNum[i] + " ");
 			System.out.println();
 			System.out.println("Please authenticate your password");
-			System.out.print("Enter the random numbers that correspond to your PIN: ");
-			int inputResponse = input.nextInt();
-			responseNum = convertInttoArray(inputResponse);
+			String inputResponse = inputPrompt("Enter the random numbers that correspond to your PIN (00000 to 33333): ");
+			responseNum = convertStrtoArray(inputResponse);
 			System.out.println("_________________________________");
 		} while (!isCorrectPassword(passwordPIN,responseNum));
 		
 		System.out.println("Correct authentication number");
 	}
 	
-	static int[] convertInttoArray(int num) {
+	static String inputPrompt(String message) {
+		String num = "";
+		do {
+			System.out.print(message);
+			num = input.next();
+		} while (num.length() != 5);
+		return num;
+	}
+	
+	static int[] convertStrtoArray(String num) {
 		int[] array = new int[5];
-		for (int i = 4; i >= 0; i--) {
-			array[i] = num % 10;
-			num = (int)(num/10);
+		for (int i = 0; i < num.length(); i++) {
+			array[i] = Character.getNumericValue(num.charAt(i));
 		}
 		return array;
 	}
